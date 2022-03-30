@@ -11,10 +11,10 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('on', 'on')
                 .addChoice('off', 'off')),
-	async execute(interaction, mainConnection) {
+	async execute(interaction, poll) {
        
 		await interaction.reply('turning lamp ' + interaction.options.getString('switch'))
-        mainConnection.send('switch', interaction.options.getString('switch'))
+        poll.broadcast('switch', interaction.options.getString('switch'))
         let str = `Lamp turned ${interaction.options.getString('switch')} at ${new Date()}`
         console.log(str)
         await db.push('logs',str)
