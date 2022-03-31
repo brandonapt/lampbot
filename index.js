@@ -2,6 +2,8 @@ require('dotenv').config()
 const token = process.env.token
 const fs = require('node:fs');
 const rlp = require("roblox-long-polling")
+const express = require('express')
+const db = require('quick.db')
 const id = process.env.id
 const { Client, Intents, Collection } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -53,3 +55,12 @@ client.on('interactionCreate', async interaction => {
 
 
 client.login(token);
+
+const app = express()
+
+app.get('/logs', async function (req,res) {
+	const logs = await db.get('logs')
+	return res.send(logs)
+})
+
+app.listen(3000)
