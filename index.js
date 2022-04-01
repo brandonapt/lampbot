@@ -20,7 +20,7 @@ const poll = new rlp({
 let mainConnection
 
 poll.on('connection', (connection) => {
-    console.log('New connection', connection.id);// Will fire when a new connection is active, and include this IP address.
+    //console.log('New connection', connection.id);// Will fire when a new connection is active, and include this IP address.
     mainConnection = connection
 
 })
@@ -60,7 +60,33 @@ const app = express()
 
 app.get('/logs', async function (req,res) {
 	const logs = await db.get('logs')
-	return res.send(logs)
+	let array = logs
+	let mainThing = []
+	for (i in array) {
+		mainThing.unshift(array[i])
+	}
+	return res.send(mainThing)
 })
+
+app.get('/off', async function (req, res) {
+	poll.broadcast('switch','off')
+	let str = `Lamp turned off at ${new Date()}`
+	await db.push('logs',str)
+	return res.sendStatus(200)
+})
+
+app.get('/on', async function (req, res) {
+	poll.broadcast('switch','on')
+	let str = `Lamp turned on at ${new Date()}`
+	await db.push('logs',str)
+	return res.sendStatus(200)
+})
+
+app.get('/clear', async function (req, res) {
+	await db.set('logs',[])
+	return res.sendStatus(200)
+})
+// Host a static file
+app.use(express.static('public'))
 
 app.listen(3000)

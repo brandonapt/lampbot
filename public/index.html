@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<style>
+    * {
+        padding: 2%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+</style>
+<body>
+    <h2>LAMP LOGS</h2>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button" id="on">
+        Toggle Lamp On
+      </button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button" id="off">
+        Toggle Lamp Off
+      </button>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="reload">
+        Reload Logs
+      </button>
+      <br>
+      <br>
+      <br>
+      <p id="logs">Loading...</p>
+      <footer>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="clear">
+            Clear Logs
+          </button>
+      </footer>
+</body>
+<script>
+        let logs = document.getElementById('logs');
+        let reload = document.getElementById('reload');
+        let interval = setInterval(async function () {
+            let response = await fetch('/logs');
+            let data = await response.json();
+            logs.innerHTML = ''
+            let int = 0
+            for (i in data) {
+                logs.innerHTML += data[i] + '<br>';
+                int++
+            }
+            if (int == 0 ) {
+                logs.innerHTML = 'No logs found'
+            }
+        }, 1000);
+        reload.onclick = function () {
+            clearInterval(interval);
+            interval = setInterval(async function () {
+                let response = await fetch('/logs');
+                let data = await response.json();
+                let int = 0
+                logs.innerHTML = ''
+            for (i in data) {
+                logs.innerHTML += data[i] + '<br>';
+                int++
+            }
+            if (int == 0 ) {
+                logs.innerHTML = 'No logs found'
+            }
+            }, 1000);
+        }
+        let toggle = document.getElementById('off');
+        toggle.onclick = async function () {
+           await fetch('/off');
+        }
+        let on = document.getElementById('on');
+        on.onclick = async function () {
+           await fetch('/on');
+        }
+        let clear = document.getElementById('clear');
+        clear.onclick = async function () {
+           await fetch('/clear');
+        }
+</script>
+</html>
