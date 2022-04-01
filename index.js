@@ -20,7 +20,7 @@ const poll = new rlp({
 let mainConnection
 
 poll.on('connection', (connection) => {
-    //console.log('New connection', connection.id);// Will fire when a new connection is active, and include this IP address.
+    console.log('New connection', connection.id);// Will fire when a new connection is active, and include this IP address.
     mainConnection = connection
 
 })
