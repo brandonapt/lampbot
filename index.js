@@ -26,7 +26,7 @@ poll.on('connection', (connection) => {
 })
 
 require('./utils/minecraft')
-
+require('./utils/roblox')
 require('./slash')
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
