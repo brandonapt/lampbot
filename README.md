@@ -2,6 +2,10 @@
 
 a bot that turns on a roblox lamp
 
+## upcoming ways to do lamp
+- twitch chat point reward/command
+- minecraft command
+
 public instance info:
 
 panel: (will post panel link soon)
