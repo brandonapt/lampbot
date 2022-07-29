@@ -25,7 +25,7 @@ poll.on('connection', (connection) => {
 
 })
 
-require('./utils/minecraft')
+//require('./utils/minecraft')
 require('./utils/roblox')
 require('./slash')
 client.commands = new Collection();
